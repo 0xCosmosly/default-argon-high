@@ -5,8 +5,8 @@
 // @description  Automatically switches Gemini to 4 Argon at High thinking level on launch, and respects manual changes.
 // @author       0xCosmosly
 // @license       MIT
-// @homepageURL  https://github.com/0xCosmosly/gemini-default-model
-// @supportURL   https://github.com/0xCosmosly/gemini-default-model/issues
+// @homepageURL  https://github.com/0xCosmosly/default-argon-high
+// @supportURL   https://github.com/0xCosmosly/default-argon-high/issues
 // @match        https://gemini.google.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=google.com
 // @grant        none

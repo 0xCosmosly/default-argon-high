@@ -23,7 +23,7 @@ Gemini defaults to a fast, low-effort model. If you want the strongest reasoning
 
 1. Install the [Tampermonkey extension](https://www.tampermonkey.net/) for Chrome, Brave, Edge, Firefox, Safari or Opera.
 2. In Chrome or Brave 138+, open `chrome://extensions`, find Tampermonkey, and enable **Allow User Scripts**. Newer Chromium builds require this toggle before any userscript can run.
-3. Open the raw script: **[Default-ArgonHigh.user.js](https://raw.githubusercontent.com/0xCosmosly/gemini-default-model/main/Default-ArgonHigh.user.js)**
+3. Open the raw script: **[Default-ArgonHigh.user.js](https://raw.githubusercontent.com/0xCosmosly/default-argon-high/main/Default-ArgonHigh.user.js)**
 4. Tampermonkey shows an install prompt — click **Install**.
 5. Open [gemini.google.com](https://gemini.google.com/app). It should land on **Argon High** on its own.
 
