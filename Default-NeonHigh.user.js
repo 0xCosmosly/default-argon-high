@@ -1,12 +1,12 @@
 // ==UserScript==
-// @name         Default-ArgonHigh
+// @name         Default-NeonHigh
 // @namespace    http://tampermonkey.net/
-// @version      2.5
-// @description  Automatically switches Gemini to 4 Argon at High thinking level on launch, and respects manual changes.
+// @version      3.0
+// @description  Automatically switches Gemini to 4 Neon at High thinking level on launch, and respects manual changes.
 // @author       0xCosmosly
 // @license       MIT
-// @homepageURL  https://github.com/0xCosmosly/default-argon-high
-// @supportURL   https://github.com/0xCosmosly/default-argon-high/issues
+// @homepageURL  https://github.com/0xCosmosly/default-neon-high
+// @supportURL   https://github.com/0xCosmosly/default-neon-high/issues
 // @match        https://gemini.google.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=google.com
 // @grant        none
@@ -16,19 +16,20 @@
 (function () {
   'use strict';
 
-  // ---- Verified against the live Gemini UI (Nov 2026) --------------------
+  // ---- Picker structure verified on the live Gemini UI (Nov 2026, Argon);  --
+  // ---- the "4 Neon" row is assumed to follow the same pattern. ------------
   // Picker button:   button[aria-label="Open mode picker, currently <Mode> <Level>"]
-  // Mode rows:       gem-menu-item[data-mode-id]  with .label text ("4 Argon")
+  // Mode rows:       gem-menu-item[data-mode-id]  with .label text ("4 Neon")
   // Thinking level:  gem-menu-item.expandable whose text contains "Thinking level"
   // Level rows:      gem-menu-item whose text starts with Low / Medium / High
-  // Ground truth:    the picker button's aria-label, e.g. "currently Argon High"
+  // Ground truth:    the picker button's aria-label, e.g. "currently Neon High"
   // -----------------------------------------------------------------------
 
   const RETRY_MS = 400;
   const STEP_SETTLE_MS = 450;
   const MAX_ATTEMPTS = 8;
-  const SUCCESS = /currently\s+argon\s+high/i;
-  const HAS_ARGON = /argon/i;
+  const SUCCESS = /currently\s+neon\s+high/i;
+  const HAS_NEON = /\bneon\b/i;
   const HAS_HIGH = /\bhigh\b/i;
 
   let inFlight = false;
@@ -80,8 +81,8 @@
     return [...document.querySelectorAll('gem-menu-item[data-mode-id]')].filter(isVisible);
   }
 
-  function argonItem() {
-    return modeItems().find((el) => HAS_ARGON.test(textOf(el.querySelector('.label') || el)));
+  function neonItem() {
+    return modeItems().find((el) => HAS_NEON.test(textOf(el.querySelector('.label') || el)));
   }
 
   // "Thinking level" is NOT reliably classed `expandable` — the class comes and
@@ -131,15 +132,15 @@
 
     inFlight = true;
     try {
-      // Step 1 — make sure the Argon mode is selected.
-      if (!HAS_ARGON.test(currentLabel())) {
+      // Step 1 — make sure the Neon mode is selected.
+      if (!HAS_NEON.test(currentLabel())) {
         if (!(await openMenu())) return;
-        const argon = await waitFor(argonItem, 900);
-        if (argon) {
-          argon.click();
-          await waitFor(() => HAS_ARGON.test(currentLabel()), 900);
+        const neon = await waitFor(neonItem, 900);
+        if (neon) {
+          neon.click();
+          await waitFor(() => HAS_NEON.test(currentLabel()), 900);
         }
-        if (!HAS_ARGON.test(currentLabel())) return; // let the next tick retry
+        if (!HAS_NEON.test(currentLabel())) return; // let the next tick retry
       }
 
       // Step 2 — force the thinking level to High.
