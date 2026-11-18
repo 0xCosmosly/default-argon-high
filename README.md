@@ -8,7 +8,7 @@ Gemini defaults to a fast, low-effort model. If you want the strongest reasoning
 
 > **Short answer:** install this userscript in Tampermonkey, open `gemini.google.com`, and Gemini will already be on **Neon High**. If you switch modes yourself, it backs off and leaves you alone.
 
-![Default Neon High — Gemini model picker (screenshot from the earlier Argon version)](docs/screenshot.png)
+![Default Neon High — Gemini opens on 4 Neon at High thinking level](docs/screenshot.png)
 
 ---
 
