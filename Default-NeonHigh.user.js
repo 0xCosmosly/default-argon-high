@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Default-NeonHigh
 // @namespace    http://tampermonkey.net/
-// @version      3.0
+// @version      3.1
 // @description  Automatically switches Gemini to 4 Neon at High thinking level on launch, and respects manual changes.
 // @author       0xCosmosly
 // @license       MIT
@@ -16,10 +16,10 @@
 (function () {
   'use strict';
 
-  // ---- Picker structure verified on the live Gemini UI (Nov 2026, Argon);  --
-  // ---- the "4 Neon" row is assumed to follow the same pattern. ------------
+  // ---- Verified against the live Gemini UI (Nov 18, 2026, AI Pro) ----------
   // Picker button:   button[aria-label="Open mode picker, currently <Mode> <Level>"]
-  // Mode rows:       gem-menu-item[data-mode-id]  with .label text ("4 Neon")
+  // Mode rows:       gem-menu-item[data-mode-id]; .label is the category
+  //                  ("Deeper analysis"), .sublabel is the model ("4 Neon")
   // Thinking level:  gem-menu-item.expandable whose text contains "Thinking level"
   // Level rows:      gem-menu-item whose text starts with Low / Medium / High
   // Ground truth:    the picker button's aria-label, e.g. "currently Neon High"
@@ -81,8 +81,9 @@
     return [...document.querySelectorAll('gem-menu-item[data-mode-id]')].filter(isVisible);
   }
 
+  // Match the whole row: the model name lives in .sublabel, not .label.
   function neonItem() {
-    return modeItems().find((el) => HAS_NEON.test(textOf(el.querySelector('.label') || el)));
+    return modeItems().find((el) => HAS_NEON.test(textOf(el)));
   }
 
   // "Thinking level" is NOT reliably classed `expandable` — the class comes and

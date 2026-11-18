@@ -73,14 +73,14 @@ About **1.3 seconds** from opening a tab to the target mode, and that includes t
 
 ## How it works
 
-The script waits for Gemini's model picker, opens it, selects the `4 Neon` row, reopens the picker, expands `Thinking level`, and chooses `High`. Each step polls for the element it needs every 40 ms instead of using fixed delays, which keeps the whole sequence under a second of visible activity.
+The script waits for Gemini's model picker, opens it, selects the `Deeper analysis — 4 Neon` row, reopens the picker, expands `Thinking level`, and chooses `High`. Each step polls for the element it needs every 40 ms instead of using fixed delays, which keeps the whole sequence under a second of visible activity.
 
 Selectors were verified against the live Gemini UI:
 
 | Element | Selector |
 |---|---|
 | Mode picker button | `button[aria-label^="Open mode picker"]` |
-| Mode rows | `gem-menu-item[data-mode-id]`, label in `.label` |
+| Mode rows | `gem-menu-item[data-mode-id]`; category in `.label` (`Deeper analysis`), model in `.sublabel` (`4 Neon`) |
 | Thinking level row | `gem-menu-item` whose text starts with `Thinking level` |
 | Level rows | `gem-menu-item` starting with `Low` / `Medium` / `High` |
 | Success signal | picker `aria-label`, e.g. `currently Neon High` |
@@ -104,10 +104,11 @@ The script deliberately avoids generated CSS class names (`_ngcontent-ng-c…`),
 | **Browsers** | Any Chromium or Firefox build with Tampermonkey, Violentmonkey or Greasemonkey |
 | **Matches** | `https://gemini.google.com/*` |
 | **Permissions** | None — `@grant none`, no network access |
-| **Version** | 3.0 |
+| **Version** | 3.1 |
 
 ## Changelog
 
+- **3.1** — Match the mode row on its full text. Gemini now puts the category (`Deeper analysis`) in `.label` and the model (`4 Neon`) in `.sublabel`, so 3.0 never found Neon.
 - **3.0** — Retargeted from `4 Argon` to `4 Neon` + `High` for Gemini 4 Neon (Nov 18, 2026). Renamed from `Default-ArgonHigh`; the README now says this script is tailored for the Google AI Pro plan.
 - **2.2** — Poll for menu elements instead of fixed 450 ms waits; switch now completes in ~1.3 s.
 - **2.1** — Fixed a stall when setting the thinking level: the `Thinking level` row is not reliably classed `expandable`, so the submenu often never opened. Also gives up cleanly after repeated failures.
